@@ -5,10 +5,12 @@
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM"],
     "paths": {
+      "#*": ["./src/*"],
       "@repro/data/*": ["../data/src/*"],
       "@repro/service/*": ["../service/src/*"],
       "@repro/shared/*": ["../shared/src/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["next-env.d.ts"]
 }

@@ -15,7 +15,9 @@
     "@elysiajs/openapi": "^1.4.0",
     "@envelop/core": "^5.0.0",
     "@envelop/parser-cache": "^7.0.0",
+    "@envelop/sentry": "^15.0.0",
     "@envelop/validation-cache": "^7.0.0",
+    "@opentelemetry/instrumentation": "^0.57.1",
     "@graphql-yoga/plugin-disable-introspection": "^2.0.0",
     "@repro/data": "workspace:^",
     "@repro/service": "workspace:^",
@@ -37,6 +39,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@types/semver": "^7.5.8",
+    "tsdown": "^0.21.0",
     "typescript": "^5.7.2"
   }
 }

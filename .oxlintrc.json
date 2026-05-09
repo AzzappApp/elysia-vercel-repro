@@ -11,7 +11,12 @@
     "es2022": true,
     "node": true
   },
-  "ignorePatterns": ["**/dist/**", "**/.vercel/**", "**/node_modules/**"],
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/.vercel/**",
+    "**/node_modules/**",
+    "**/next-env.d.ts"
+  ],
   "rules": {
     "typescript/no-unsafe-type-assertion": "off"
   }
