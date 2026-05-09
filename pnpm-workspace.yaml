@@ -1,3 +1,5 @@
 packages:
   - 'packages/*'
 nodeLinker: isolated
+patchedDependencies:
+  drizzle-orm@0.40.1: patches/drizzle-orm@0.40.1.patch

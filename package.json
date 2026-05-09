@@ -16,6 +16,11 @@
     "turbo": "^2.3.3",
     "typescript": "^5.7.2"
   },
+  "pnpm": {
+    "patchedDependencies": {
+      "drizzle-orm@0.40.1": "patches/drizzle-orm@0.40.1.patch"
+    }
+  },
   "engines": {
     "node": ">=22"
   }
