@@ -50,6 +50,12 @@ importers:
       '@repro/data':
         specifier: workspace:^
         version: link:../data
+      '@repro/payment':
+        specifier: workspace:^
+        version: link:../payment
+      '@repro/schema':
+        specifier: workspace:^
+        version: link:../schema
       '@repro/service':
         specifier: workspace:^
         version: link:../service
@@ -146,6 +152,53 @@ importers:
         specifier: ^5.7.2
         version: 5.9.3
 
+  packages/payment:
+    dependencies:
+      '@repro/data':
+        specifier: workspace:^
+        version: link:../data
+      '@repro/shared':
+        specifier: workspace:^
+        version: link:../shared
+      decimal.js:
+        specifier: ^10.4.3
+        version: 10.6.0
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.18
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+
+  packages/schema:
+    dependencies:
+      '@repro/data':
+        specifier: workspace:^
+        version: link:../data
+      '@repro/payment':
+        specifier: workspace:^
+        version: link:../payment
+      '@repro/service':
+        specifier: workspace:^
+        version: link:../service
+      '@repro/shared':
+        specifier: workspace:^
+        version: link:../shared
+      graphql:
+        specifier: ^16.13.2
+        version: 16.14.0
+      graphql-relay:
+        specifier: ^0.10.2
+        version: 0.10.2(graphql@16.14.0)
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.18
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+
   packages/service:
     dependencies:
       '@axiomhq/js':
@@ -154,6 +207,9 @@ importers:
       '@repro/data':
         specifier: workspace:^
         version: link:../data
+      '@repro/payment':
+        specifier: workspace:^
+        version: link:../payment
       '@repro/shared':
         specifier: workspace:^
         version: link:../shared
@@ -2178,6 +2234,9 @@ packages:
       supports-color:
         optional: true
 
+  decimal.js@10.6.0:
+    resolution: {integrity: sha512-YpgQiITW3JXGntzdUmyUR1V812Hn8T1YVXhCu+wO3OpS4eU9l4YdD3qjyiKdV6mvV29zapkMeD390UVEf2lkUg==}
+
   defu@6.1.7:
     resolution: {integrity: sha512-7z22QmUWiQ/2d0KkdYmANbRUVABpZ9SNYyH5vx6PZ+nE5bcC0l7uFvEfHlyld/HcGBFTL536ClDt3DEcSlEJAQ==}
 
@@ -2437,6 +2496,12 @@ packages:
   google-logging-utils@1.1.3:
     resolution: {integrity: sha512-eAmLkjDjAFCVXg7A1unxHsLf961m6y17QFqXqAXGj/gVkKFrEICfStRfwUlGNfeCEjNRa32JEWOUTlYXPyyKvA==}
     engines: {node: '>=14'}
+
+  graphql-relay@0.10.2:
+    resolution: {integrity: sha512-abybva1hmlNt7Y9pMpAzHuFnM2Mme/a2Usd8S4X27fNteLGRAECMYfhmsrpZFvGn3BhmBZugMXYW/Mesv3P1Kw==}
+    engines: {node: ^12.20.0 || ^14.15.0 || >= 15.9.0}
+    peerDependencies:
+      graphql: ^16.2.0
 
   graphql-yoga@5.21.0:
     resolution: {integrity: sha512-PS37UoDihx8209RRl1ogttzWevNYDnGvP7beHkwHzUpUdfZTHsVRTVe1ysGXre1EjwUAePbpez302YSrq70Ngw==}
@@ -5068,6 +5133,8 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
+  decimal.js@10.6.0: {}
+
   defu@6.1.7: {}
 
   delegates@1.0.0: {}
@@ -5284,6 +5351,10 @@ snapshots:
       path-is-absolute: 1.0.1
 
   google-logging-utils@1.1.3: {}
+
+  graphql-relay@0.10.2(graphql@16.14.0):
+    dependencies:
+      graphql: 16.14.0
 
   graphql-yoga@5.21.0(graphql@16.14.0):
     dependencies:

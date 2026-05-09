@@ -7,6 +7,8 @@
     "paths": {
       "#*": ["./src/*"],
       "@repro/data/*": ["../data/src/*"],
+      "@repro/payment/*": ["../payment/src/*"],
+      "@repro/schema/*": ["../schema/src/*"],
       "@repro/service/*": ["../service/src/*"],
       "@repro/shared/*": ["../shared/src/*"]
     }

@@ -1,0 +1,23 @@
+{
+  "name": "@repro/payment",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "oxlint --type-aware --type-check",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf node_modules tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@repro/data": "workspace:^",
+    "@repro/shared": "workspace:^",
+    "decimal.js": "^10.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  }
+}

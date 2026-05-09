@@ -1,0 +1,26 @@
+{
+  "name": "@repro/schema",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "oxlint --type-aware --type-check",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf node_modules tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@repro/data": "workspace:^",
+    "@repro/payment": "workspace:^",
+    "@repro/service": "workspace:^",
+    "@repro/shared": "workspace:^",
+    "graphql": "^16.13.2",
+    "graphql-relay": "^0.10.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  }
+}

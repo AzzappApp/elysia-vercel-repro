@@ -3,31 +3,10 @@ import { useParserCache } from '@envelop/parser-cache';
 import { useValidationCache } from '@envelop/validation-cache';
 import { useDisableIntrospection } from '@graphql-yoga/plugin-disable-introspection';
 import { Elysia } from 'elysia';
-import { GraphQLSchema, GraphQLObjectType, GraphQLString } from 'graphql';
 import { createYoga } from 'graphql-yoga';
-import { compare } from 'semver';
+import { schema } from '@repro/schema';
 import { checkServerAuth } from '@repro/service/serverAuthServices';
 import { AuthErrors } from '@repro/shared/errors';
-
-const schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: 'Query',
-    fields: {
-      hello: {
-        type: GraphQLString,
-        resolve: () => 'world',
-      },
-      version: {
-        type: GraphQLString,
-        resolve: () => {
-          const a = '1.0.0';
-          const b = '0.9.0';
-          return compare(a, b) > 0 ? a : b;
-        },
-      },
-    },
-  }),
-});
 
 const yoga = createYoga({
   schema,
