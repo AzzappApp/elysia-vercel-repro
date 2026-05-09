@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "elysia",
+  "regions": ["fra1"],
+  "bunVersion": "1.x"
+}

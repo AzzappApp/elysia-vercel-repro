@@ -1,0 +1,28 @@
+{
+  "name": "@repro/service",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./serverAuthServices": "./src/serverAuthServices.ts",
+    "./userServices": "./src/userServices.ts"
+  },
+  "scripts": {
+    "lint": "oxlint --type-aware --type-check",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf node_modules tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@repro/data": "workspace:^",
+    "@repro/shared": "workspace:^",
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  }
+}

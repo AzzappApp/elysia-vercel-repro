@@ -1,0 +1,28 @@
+{
+  "name": "@repro/data",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "oxlint --type-aware --type-check",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf node_modules tsconfig.tsbuildinfo",
+    "generate-migration": "drizzle-kit generate --config ./src/drizzle.config.ts",
+    "studio": "drizzle-kit studio --config ./src/drizzle.config.ts"
+  },
+  "dependencies": {
+    "@adobe/fetch": "^4.3.0",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "@planetscale/database": "^1.20.1",
+    "@repro/shared": "workspace:^",
+    "drizzle-orm": "^0.40.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "drizzle-kit": "^0.30.5",
+    "typescript": "^5.7.2"
+  }
+}

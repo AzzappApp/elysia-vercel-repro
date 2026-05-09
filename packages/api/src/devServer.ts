@@ -1,0 +1,8 @@
+/// <reference types="bun" />
+import app from './index';
+
+const port = Number(process.env.PORT ?? 3000);
+
+app.listen(port);
+
+console.log(`Elysia API listening on http://localhost:${port} (Bun)`);
