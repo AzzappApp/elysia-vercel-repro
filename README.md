@@ -9,13 +9,16 @@ Elysia framework preset** in a pnpm monorepo.
 When the project is deployed using the Vercel-detected Elysia preset (i.e. no
 custom build script), the function is built but **third-party dependencies that
 are imported transitively through workspace packages are not bundled into the
-function output**. At cold-start, the function crashes with `ERR_MODULE_NOT_FOUND`
+function output**. At cold-start, the function crashes with `Cannot find module`
 on packages such as:
 
-- `@adobe/fetch` (imported from `@repro/data` → `database/drizzleClient.ts`)
-- `@planetscale/database` (idem)
+- `@planetscale/database` (imported from `@repro/data` → `database/drizzleClient.ts`)
+- `@adobe/fetch` (idem)
 - `drizzle-orm/planetscale-serverless` (idem)
-- `bcrypt` and `jsonwebtoken` (imported from `@repro/service`)
+- `lodash/pickBy` (imported from `@repro/data` → `queries/userQueries.ts`)
+- `libphonenumber-js` (imported from `@repro/data` → `helpers/phone.ts`)
+- `@axiomhq/js` (imported from `@repro/service` → `loggerService.ts`)
+- `bcrypt`, `jose`, `jsonwebtoken` (imported from `@repro/service`)
 
 These packages are declared as `dependencies` of the workspace packages
 (`@repro/data`, `@repro/service`) that the API imports. They are correctly
@@ -23,9 +26,10 @@ installed by `pnpm install` at build time, but the Vercel Build Output that the
 Elysia preset produces does not include them in the function's
 `node_modules`.
 
-The API's own direct dependencies (`elysia`, `@elysiajs/cors`, `@elysiajs/node`,
-`zod`) are bundled correctly. Only the transitive dependencies coming from
-workspace packages are missing.
+The API's own direct dependencies (`elysia`, `@elysiajs/cors`,
+`@elysiajs/openapi`, `@sentry/node-core`, `@vercel/og`, `react`, `react-dom`,
+`sharp`, `zod`) are bundled correctly. **Only the transitive dependencies
+coming from workspace packages are missing.**
 
 ## Stack
 
@@ -35,11 +39,19 @@ Same as our private project:
 - [`elysia`](https://elysiajs.com/) running on **Bun** (no `@elysiajs/node`
   adapter — we want the default Bun + Elysia path that Vercel's framework
   preset detects)
+- [`@elysiajs/openapi`](https://elysiajs.com/plugins/openapi) for the `/docs`
+  endpoint
 - [`drizzle-orm`](https://orm.drizzle.team/) + `drizzle-orm/planetscale-serverless`
 - [`@planetscale/database`](https://github.com/planetscale/database-js)
 - [`@adobe/fetch`](https://github.com/adobe/fetch) (HTTP/2 fetch client used as
   the PlanetScale `fetch` override)
-- `bcrypt`, `jsonwebtoken` for the auth service
+- [`@sentry/node-core/light`](https://docs.sentry.io/) for error reporting
+- [`@vercel/og`](https://vercel.com/docs/og-image-generation) + `react`/`react-dom`
+  for dynamic OG images
+- [`sharp`](https://sharp.pixelplumbing.com/) for image generation
+- [`@axiomhq/js`](https://axiom.co) for structured logging
+- `bcrypt`, `jose`, `jsonwebtoken`, `lodash`, `libphonenumber-js` — same set of
+  utility deps the production API ships
 
 The API package depends on three workspace packages:
 

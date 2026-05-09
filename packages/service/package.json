@@ -5,7 +5,9 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./loggerService": "./src/loggerService.ts",
     "./serverAuthServices": "./src/serverAuthServices.ts",
+    "./tokenService": "./src/tokenService.ts",
     "./userServices": "./src/userServices.ts"
   },
   "scripts": {
@@ -14,9 +16,11 @@
     "clean": "rm -rf node_modules tsconfig.tsbuildinfo"
   },
   "dependencies": {
+    "@axiomhq/js": "^1.6.0",
     "@repro/data": "workspace:^",
     "@repro/shared": "workspace:^",
     "bcrypt": "^5.1.1",
+    "jose": "^5.9.6",
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
