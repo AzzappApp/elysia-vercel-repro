@@ -3,7 +3,12 @@
   "compilerOptions": {
     "types": ["bun"],
     "jsx": "react-jsx",
-    "lib": ["ES2022", "DOM"]
+    "lib": ["ES2022", "DOM"],
+    "paths": {
+      "@repro/data/*": ["../data/src/*"],
+      "@repro/service/*": ["../service/src/*"],
+      "@repro/shared/*": ["../shared/src/*"]
+    }
   },
   "include": ["src/**/*"]
 }

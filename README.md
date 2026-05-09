@@ -72,6 +72,31 @@ The dependency chain is:
             →  @repro/shared
 ```
 
+## Important: TypeScript path aliases
+
+`packages/api/tsconfig.json` declares `paths` that point workspace imports
+**directly at the source files**, bypassing the workspace package's
+`package.json` exports:
+
+```json
+"paths": {
+  "@repro/data/*":    ["../data/src/*"],
+  "@repro/service/*": ["../service/src/*"],
+  "@repro/shared/*":  ["../shared/src/*"]
+}
+```
+
+This mirrors what we have in our private project. We believe this is what
+triggers the bug: Bun honors `tsconfig.json` `paths` at runtime, so an import
+like `@repro/data/queries/userQueries` is resolved to
+`packages/data/src/queries/userQueries.ts`. Vercel's Elysia preset then
+transpiles that file in-place to `packages/data/src/queries/userQueries.cjs`
+without bringing the matching `packages/data/node_modules/` along.
+
+Without these `paths`, the same imports would resolve via each workspace's
+`package.json` `exports` map, and the bug does **not** occur. The repro is
+designed to demonstrate the difference.
+
 ## Project layout
 
 ```
@@ -141,17 +166,68 @@ from /var/task/.../node_modules/@repro/data/src/database/drizzleClient.js
 …or similar errors on `@planetscale/database`, `drizzle-orm/planetscale-serverless`,
 `bcrypt`, `jsonwebtoken` depending on which route is hit first.
 
+### What the error tells us
+
+The actual error message we observed is:
+
+```
+Cannot find module '@planetscale/database'
+  from '/var/task/packages/data/src/database/drizzleClient.cjs'
+```
+
+Two things to notice:
+
+1. **The deployed file is `drizzleClient.cjs`** — but the source is `.ts` and
+   `packages/data/package.json` declares `"type": "module"`. The Vercel/Elysia
+   bundler is transpiling each workspace TS file individually to **CommonJS**
+   instead of honoring the workspace's `"type": "module"`.
+2. **The file lives under `packages/data/src/...`** — the bundler preserves
+   the workspace directory layout in the deployed function but does **not**
+   include the matching `packages/data/node_modules/` next to it.
+
+CommonJS resolution from `/var/task/packages/data/src/database/drizzleClient.cjs`
+walks up looking for `@planetscale/database`:
+
+```
+/var/task/packages/data/src/database/node_modules/  ❌
+/var/task/packages/data/src/node_modules/           ❌
+/var/task/packages/data/node_modules/               ❌  ← missing!
+/var/task/packages/node_modules/                    ❌
+/var/task/node_modules/                             ❌  (it's a dep of @repro/data, not @repro/api)
+```
+
+`@planetscale/database` is declared in `packages/data/package.json` (workspace
+dependency), so it's never present at the API root's `node_modules`. And
+because the workspace's own `node_modules/` directory is missing from the
+deployed bundle, the lookup fails everywhere.
+
 ### Expected behaviour
 
-The Vercel Elysia preset should bundle (or at least include in the function's
-`node_modules`) every package transitively required by the entry, regardless of
-whether it is declared on the entry package itself or on a workspace package.
+The Vercel Elysia preset should do one of the following:
+
+- **Bundle** the workspace `.ts` files into the API entry so that imports are
+  resolved at build time (then no `node_modules` traversal is needed for
+  workspace transitive deps), **or**
+- Preserve the workspace's `node_modules/` next to its source files in the
+  deployment, **or**
+- Hoist every transitive workspace dependency to the root `node_modules/`.
+
+It should also honor `"type": "module"` from each workspace `package.json`
+when transpiling its files — the deployed `drizzleClient.cjs` should be
+`drizzleClient.mjs`.
 
 ### Actual behaviour
 
-Only direct dependencies of `packages/api/package.json` are present in the
-function's `node_modules`. Dependencies declared in `packages/data/package.json`
-or `packages/service/package.json` are missing.
+- Workspace `.ts` files are transpiled in-place to `.cjs` (ignoring the
+  `"type": "module"` of the workspace package).
+- Only direct dependencies of `packages/api/package.json` are present in
+  `/var/task/node_modules/`.
+- The `packages/data/node_modules/` and `packages/service/node_modules/`
+  directories are absent from the deployment.
+- As a result, every dependency declared by a non-API workspace package
+  (`@planetscale/database`, `@adobe/fetch`, `lodash`, `libphonenumber-js`,
+  `@axiomhq/js`, `bcrypt`, `jose`, `jsonwebtoken`) fails to resolve at
+  cold-start.
 
 ## Workaround we currently use in production
 
