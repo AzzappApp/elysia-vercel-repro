@@ -1,6 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "elysia",
-  "regions": ["fra1"],
+  "regions": ["fra1", "iad1", "sin1", "pdx1", "gru1"],
+  "crons": [{ "path": "/cron/heartbeat", "schedule": "0 0 * * *" }],
   "bunVersion": "1.x"
 }
