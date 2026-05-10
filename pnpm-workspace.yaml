@@ -9,6 +9,10 @@ allowBuilds:
 nodeLinker: isolated
 overrides:
   graphql: ^16.8.0
+  # Force a single typebox version across the workspace. Without this, jest
+  # (transitive of react-native) drags in @sinclair/typebox@0.27.10 which
+  # gets hoisted and shadows the 0.34.49 elysia expects.
+  '@sinclair/typebox': ^0.34.49
 publicHoistPattern:
   - '@react-native/assets-registry'
   # Probing the same hoist behaviour as azzapp: list the deps that azzapp
