@@ -6,7 +6,9 @@
     "clean": "rm -rf node_modules tsconfig.tsbuildinfo"
   },
   "dependencies": {
+    "@op-engineering/op-sqlite": "^15.2.12",
     "@repro/shared": "workspace:^",
+    "drizzle-orm": "0.40.1",
     "expo": "^52.0.0",
     "react": "^19.0.0",
     "react-native": "^0.78.0"
