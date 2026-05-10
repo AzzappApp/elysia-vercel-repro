@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import { getDrizzleClient } from '../database/drizzleClient';
+import { db } from '../database/database';
 import {
   LocalizationMessageTable,
   type LocalizationMessage,
@@ -8,15 +8,13 @@ import {
 export const getLocalizationMessages = async (): Promise<
   LocalizationMessage[]
 > => {
-  const db = getDrizzleClient();
-  return db.select().from(LocalizationMessageTable);
+  return db().select().from(LocalizationMessageTable);
 };
 
 export const getLocalizationMessagesByLocale = async (
   locale: string,
 ): Promise<LocalizationMessage[]> => {
-  const db = getDrizzleClient();
-  return db
+  return db()
     .select()
     .from(LocalizationMessageTable)
     .where(eq(LocalizationMessageTable.locale, locale));
@@ -25,8 +23,7 @@ export const getLocalizationMessagesByLocale = async (
 export const saveLocalizationMessage = async (
   message: LocalizationMessage,
 ): Promise<void> => {
-  const db = getDrizzleClient();
-  await db
+  await db()
     .insert(LocalizationMessageTable)
     .values(message)
     .onDuplicateKeyUpdate({ set: { value: message.value } });
