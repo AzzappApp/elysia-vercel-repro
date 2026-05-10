@@ -11,6 +11,13 @@ overrides:
   graphql: ^16.8.0
 publicHoistPattern:
   - '@react-native/assets-registry'
+  # Probing the same hoist behaviour as azzapp: list the deps that azzapp
+  # hoists. We expect drizzle-orm and @adobe/fetch to land at the root, but
+  # @planetscale/database to NOT be hoisted because it's a peerDep of the
+  # patched drizzle-orm. That asymmetry is what we want to reproduce.
+  - '@planetscale/database'
+  - '@adobe/fetch'
+  - 'drizzle-orm'
 strictPeerDependencies: false
 patchedDependencies:
   drizzle-orm@0.40.1: patches/drizzle-orm@0.40.1.patch

@@ -2,7 +2,7 @@
   "name": "elysia-vercel-repro",
   "version": "1.0.0",
   "private": true,
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@11.0.4",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
