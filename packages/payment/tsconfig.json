@@ -1,4 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@repro/data/*": ["../data/src/*"],
+      "@repro/shared/*": ["../shared/src/*"]
+    }
+  },
   "include": ["src/**/*"]
 }

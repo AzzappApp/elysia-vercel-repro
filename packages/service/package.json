@@ -2,15 +2,14 @@
   "name": "@repro/service",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "exports": {
-    ".": "./src/index.ts",
     "./loggerService": "./src/loggerService.ts",
     "./messageQueue/handler": "./src/messageQueue/handler.ts",
     "./orderService": "./src/orderService.ts",
     "./serverAuthServices": "./src/serverAuthServices.ts",
     "./tokenService": "./src/tokenService.ts",
-    "./userServices": "./src/userServices.ts"
+    "./userServices": "./src/userServices.ts",
+    "./*": "./src/*"
   },
   "scripts": {
     "lint": "oxlint --type-aware --type-check",

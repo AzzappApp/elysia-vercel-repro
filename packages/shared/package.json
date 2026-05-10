@@ -2,11 +2,8 @@
   "name": "@repro/shared",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./errors": "./src/errors.ts",
-    "./userHelpers": "./src/userHelpers.ts"
+    "./*": "./src/*"
   },
   "scripts": {
     "lint": "oxlint --type-aware --type-check",

@@ -1,4 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@repro/data/*": ["../data/src/*"],
+      "@repro/payment/*": ["../payment/src/*"],
+      "@repro/service/*": ["../service/src/*"],
+      "@repro/shared/*": ["../shared/src/*"]
+    }
+  },
   "include": ["src/**/*"]
 }
